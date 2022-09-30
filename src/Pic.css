@@ -1,0 +1,54 @@
+.productUploadImg {
+  height: 80%;
+  width: 70%;
+  border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+  border-width: 10px;
+  border-style: dashed;
+  margin: 44px 0;
+  padding: 12px;
+  box-shadow: 25px 16px 22px 0px rgba(168, 168, 168, 0.8);
+  -webkit-box-shadow: 25px 16px 22px 0px rgba(168, 168, 168, 0.8);
+  -moz-box-shadow: 25px 16px 22px 0px rgba(168, 168, 168, 0.8);
+}
+
+.css-krvuza {
+  background-color: rgb(88 88 88 / 10%);
+}
+
+.css-1mjoxqy .MuiTextField-root {
+  width: 55ch;
+  margin: auto;
+}
+
+.imgDesigns {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.selectDesigns {
+  border: 1px solid grey;
+  border-radius: 26px;
+  padding: 11px;
+  background: grey;
+  color: white;
+}
+
+.selectDesigns:hover {
+  border-color: purple;
+  background: purple;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.selectDesigns:active {
+  border-color: purple;
+  background: purple;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+h1 {
+  color: purple;
+  font-style: italic;
+  font-weight: bold;
+}
