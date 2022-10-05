@@ -52,3 +52,42 @@ h1 {
   font-style: italic;
   font-weight: bold;
 }
+
+.dropzone {
+  border: 1px solid #256eb8;
+  /*min-height: 360px;*/
+  height: 70px;
+  width: 70px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background: blue;
+  /* background-image: url("./forest-653448__340.png"); */
+  padding: 0px;
+  margin: 0px;
+}
+
+.bgUpload {
+  font-weight: bold;
+  color: red;
+  text-transform: uppercase;
+}
+
+.linearGradient {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* display: inline-block;
+background-image: url(blob:http://localhost:3000/e0cc2dff-61af-4bb1-89ab-96be0a82ccbe);
+background-repeat: no-repeat;
+width: 900px;
+height: 860px;
+margin: 12px;
+border-width: 12px;
+
+
+
+    display: inline-block;
+    background-image: linear-gradient(45deg, rgb(133, 255, 189) 0%, rgb(255, 251, 125) 100%);
+    background-color: darkslategrey;
+    margin: 30px 0px; */
