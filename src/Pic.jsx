@@ -6,7 +6,6 @@ import "./Pic.css";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@material-ui/core";
-
 import html2canvas from "html2canvas";
 
 function RedBar() {
@@ -53,18 +52,28 @@ const rejectStyle = {
 
 export default function StyledDropzone(props) {
   const [yourImage, setImage] = useState([]);
+  const [BG, setBg] = useState([]);
   const [padding, setPadding] = useState();
-  const [marginTop, setMarginTop] = useState("44px");
-  const [marginLeft, setMarginLeft] = useState("24px");
-  const [width, setWidth] = useState("70%");
-  const [height, setHeight] = useState("75%");
+  const [marginTop, setMarginTop] = useState("12px");
+  const [marginLeft, setMarginLeft] = useState("12px");
+  const [width, setWidth] = useState("900px");
+  const [height, setHeight] = useState("860px");
   const [borderWidth, setBorderWidth] = useState("12px");
   const [backgroundColor, setBackgroundColor] = useState("darkslategrey");
+  const [backgroundURL, setBackgroundURL] = useState();
+  const [background, setBackground] = useState();
   const [borderRadius, setBorderRadius] = useState("2px");
 
   const [style1, setStyle1] = useState(false);
   const [style2, setStyle2] = useState(false);
   const [style3, setStyle3] = useState(false);
+
+  const uploadBG = () => {
+    setBackground(true);
+    setStyle1(false);
+    setStyle2(false);
+    setStyle3(false);
+  };
 
   const exportPDF = () => {
     const input = document.getElementById("pic");
@@ -88,10 +97,8 @@ export default function StyledDropzone(props) {
     height: height,
     marginTop: marginTop,
     marginBottom: marginTop,
-
     marginLeft: marginLeft,
     marginRight: marginLeft,
-
     borderWidth: borderWidth,
     borderRadius: borderRadius,
     boxShadow: "-4px 10px 26px 0px rgba(133,80,80,0.57)",
@@ -121,64 +128,121 @@ export default function StyledDropzone(props) {
   };
 
   let settingStyle1 = () => {
+    setBackground(false);
     setStyle1(true);
     setStyle2(false);
     setStyle3(false);
   };
 
   let settingStyle2 = () => {
+    setBackground(false);
+
     setStyle1(false);
     setStyle2(true);
     setStyle3(false);
   };
   let settingStyle3 = () => {
+    setBackground(false);
+
     setStyle1(false);
     setStyle2(false);
     setStyle3(true);
   };
 
-  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
-    useDropzone({
-      type: "file",
-      accept: "image/*",
-      description: "Images",
-      maxFiles: 1,
+  let linearGradient = () => {
+    // prompt({
+    //   title: "Sign in to iTunes Store",
+    //   message: 'Enter the Apple ID password for "hello@mobiscroll.com".',
+    //   placeholder: "Password",
+    //   inputType: "password",
+    // });
+  };
 
-      onDrop: (acceptedFiles) => {
-        setImage(
-          acceptedFiles.map((upFile) =>
-            Object.assign(upFile, {
-              preview: URL.createObjectURL(upFile),
-            })
-          )
-        );
-      },
-    });
+  const image = useDropzone({
+    type: "file",
+    accept: "image/*",
+    description: "Images",
+    maxFiles: 1,
 
+    onDrop: (acceptedFiles, event) => {
+      console.log(">>>>>>", event);
+
+      setImage(
+        acceptedFiles.map((upFile) =>
+          Object.assign(upFile, {
+            preview: URL.createObjectURL(upFile),
+          })
+        )
+      );
+    },
+  });
+
+  /////////////BG///////////////
+  const bg = useDropzone({
+    type: "file",
+    accept: "image/*",
+    description: "Images",
+    maxFiles: 1,
+
+    onDrop: (acceptedFiles, event) => {
+      console.log(">>>>>>", event);
+      setBg(
+        acceptedFiles.map((upFile) =>
+          Object.assign(upFile, {
+            preview: URL.createObjectURL(upFile),
+          })
+        )
+      );
+    },
+  });
+
+  ///////////////////IMAGE ////////////////////////
   const style = useMemo(
     () => ({
       ...baseStyle,
-      ...(isFocused ? focusedStyle : {}),
-      ...(isDragAccept ? acceptStyle : {}),
-      ...(isDragReject ? rejectStyle : {}),
+      ...(image.isFocused ? focusedStyle : {}),
+      ...(image.isDragAccept ? acceptStyle : {}),
+      ...(image.isDragReject ? rejectStyle : {}),
     }),
-    [isFocused, isDragAccept, isDragReject]
+    [image.isFocused, image.isDragAccept, image.isDragReject]
   );
+  const style4 = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(bg.isFocused ? focusedStyle : {}),
+      ...(bg.isDragAccept ? acceptStyle : {}),
+      ...(bg.isDragReject ? rejectStyle : {}),
+    }),
+    [bg.isFocused, bg.isDragAccept, bg.isDragReject]
+  );
+
   return (
     <div className="container">
       <h1>Picture Designer</h1>
-      <div {...getRootProps({ style })}>
-        <input type="file" accept="image/*" {...getInputProps()} />
+      <div {...image.getRootProps({ style })}>
+        <input
+          type="file"
+          accept="image/*"
+          {...image.getInputProps()}
+          id="first"
+        />
         <p style={{ cursor: "crosshair" }}>
           Drag 'n' drop some files here, or click to select files
         </p>
       </div>
 
       <div>
+        {console.log("This is image", yourImage[0])}
+
+        {console.log("This is bg ", bg[0])}
+
         {yourImage.map((upfile) => {
+          console.log("This is image", yourImage);
+          console.log("This is bg", BG);
           return (
             <div
               id="pic"
+              key={upfile.index}
               style={
                 style1
                   ? divStyle
@@ -186,7 +250,19 @@ export default function StyledDropzone(props) {
                   ? divStyle1
                   : style3
                   ? divStyle2
-                  : divStyle
+                  : background
+                  ? {
+                      backgroundImage: `url(${BG[0]?.preview})`,
+
+                      display: "inline-block",
+
+                      marginTop: styling.marginTop,
+                      marginBottom: styling.marginTop,
+                      marginLeft: styling.marginLeft,
+                      marginRight: styling.marginLeft,
+                      borderWidth: styling.borderWidth,
+                    }
+                  : null
               }
             >
               <img style={styling} src={upfile.preview} alt="" />
@@ -204,13 +280,51 @@ export default function StyledDropzone(props) {
         <h2 className="selectDesigns" onClick={() => settingStyle1()}>
           1
         </h2>
-
         <h2 className="selectDesigns" onClick={() => settingStyle2()}>
           2
         </h2>
         <h2 className="selectDesigns" onClick={() => settingStyle3()}>
           3
         </h2>
+        <h2 className="selectDesigns" onClick={() => linearGradient()}>
+          Linear Gredient
+        </h2>
+      </div>
+      <div {...bg.getRootProps({ style4 })}>
+        <input type="file" accept="image/*" {...bg.getInputProps()} />
+        <p className="bgUpload" onClick={() => uploadBG()}>
+          Upload Background
+        </p>
+      </div>
+      <div></div>
+
+      <h1>Linear Gradient</h1>
+
+      <div className="linearGradient">
+        <TextField
+          id="standard-helperText"
+          label="degree"
+          helperText="Enter degree of linear"
+          variant="standard"
+        />
+        <TextField
+          id="standard-helperText"
+          label="Color 1"
+          helperText="Enter any color"
+          variant="standard"
+        />
+        <TextField
+          id="standard-helperText"
+          label="Color 2"
+          helperText="Enter any color"
+          variant="standard"
+        />
+        <TextField
+          id="standard-helperText"
+          label="Color 3"
+          helperText="Enter any color"
+          variant="standard"
+        />
       </div>
 
       <h1>Settings</h1>
